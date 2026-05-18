@@ -130,10 +130,10 @@ vec2 normalizeScreen(vec2 value, float isPosition) {
 // Anti-aliasing
 // -----------------------------------------------------------------------------
 
-float antialiasing(float distance) {
+float antialiasing(float distance, float blurNorm) {
     return 1.0 - smoothstep(
         0.0,
-        normalizeScreen(vec2(BLUR, BLUR), 0.0).x,
+        blurNorm,
         distance
     );
 }
@@ -184,27 +184,23 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
     float lineLength = length(delta);
 
-    float sdfCurrentCursor = getSdfRectangle(
-        vu,
-        centerCC,
-        currentCursor.zw * 0.5
-    );
-
     vec4 newColor = vec4(fragColor);
 
     float minDist = currentCursor.w * THRESHOLD_MIN_DISTANCE;
 
-    float progress = clamp(
-        (iTime - iTimeCursorChange) / DURATION,
-        0.0,
-        1.0
-    );
+    float blurNorm = (BLUR * 2.0) / iResolution.y;
 
     // -------------------------------------------------------------------------
     // Draw trail only if movement exceeds threshold
     // -------------------------------------------------------------------------
 
     if (lineLength > minDist) {
+
+        float progress = clamp(
+            (iTime - iTimeCursorChange) / DURATION,
+            0.0,
+            1.0
+        );
 
         float tailDelayFactor = MAX_TRAIL_LENGTH / lineLength;
 
@@ -220,6 +216,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
         float headEased = mix(headLong, headShort, isLongMove);
         float tailEased = mix(tailLong, tailShort, isLongMove);
+
+        float sdfCurrentCursor = getSdfRectangle(
+            vu,
+            centerCC,
+            currentCursor.zw * 0.5
+        );
 
         // ---------------------------------------------------------------------
         // Detect straight movement
@@ -323,7 +325,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
         vec4 trail = TRAIL_COLOR;
 
-        float trailAlpha = antialiasing(sdfTrail);
+        float trailAlpha = antialiasing(sdfTrail, blurNorm);
 
         newColor = mix(newColor, trail, trailAlpha);
 
