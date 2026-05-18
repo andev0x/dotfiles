@@ -1,52 +1,54 @@
 # =============================================================================
 # Ghostty — Minimal Smooth Native Config
 # Optimized for:
-# macOS + Linux
-# Neovim + Tmux
-# Smooth rendering
-# Low latency
-# Lightweight GPU usage
+# - macOS + Linux
+# - Neovim + Tmux
+# - Smooth frame pacing
+# - Low latency
+# - Lower GPU overhead
+# - Stable long sessions
 # =============================================================================
 
-# -----------------------------------------------------------------------------
+# =============================================================================
 # Font
-# -----------------------------------------------------------------------------
+# =============================================================================
 
 font-family = JetBrainsMono Nerd Font Mono
 font-size = 15
 
-# Better readability without bloating layout
-adjust-cell-height = 2%
+# Stable glyph alignment and smoother scrolling feel
+adjust-cell-height = 0%
 adjust-cell-width = 0%
 
-# Disable ligatures for stable code alignment
+# Disable ligatures for consistent code alignment
 font-feature = -liga
 
-# Keep glyph rendering crisp
+# Keep Retina text rendering crisp
 font-thicken = false
 
-# -----------------------------------------------------------------------------
+# =============================================================================
 # Theme
-# -----------------------------------------------------------------------------
+# =============================================================================
 
 background = #07130A
 foreground = #B7D7A8
 
+# Smooth lightweight cursor feel
 cursor-color = #98FF98
 cursor-style = bar
-cursor-opacity = 0.92
+cursor-opacity = 0.84
 
 selection-background = #1A2A1A
 selection-foreground = #D8F5C0
 
 bold-is-bright = false
 
-# Let palette stay untouched
+# Preserve original palette contrast
 minimum-contrast = 1
 
-# -----------------------------------------------------------------------------
+# =============================================================================
 # Palette
-# -----------------------------------------------------------------------------
+# =============================================================================
 
 palette = 0=#07130A
 palette = 1=#E06C75
@@ -69,34 +71,41 @@ palette = 15=#FFFFFF
 # Window & Compositor
 # =============================================================================
 
-# Light transparency without killing clarity
-background-opacity = 0.94
+# Subtle transparency without heavy compositor cost
+background-opacity = 0.985
 
-# Small blur radius for native smooth glass effect
-background-blur-radius = 18
+# Small blur radius keeps native feel while staying lightweight
+background-blur-radius = 2
 
+# Stable color rendering
 window-colorspace = srgb
 
 macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = hidden
 
-window-padding-x = 8
-window-padding-y = 8
+# Compact layout for tighter Neovim + tmux workflow
+window-padding-x = 15
+window-padding-y = 5
+
+# Prevent floating centered appearance
 window-padding-balance = false
 
-window-save-state = always
+# Reduce unnecessary window state retention
+window-save-state = default
+
 window-inherit-working-directory = true
 
+# Cleaner resize behavior
 resize-overlay = never
 
-# -----------------------------------------------------------------------------
+# =============================================================================
 # Performance
-# -----------------------------------------------------------------------------
+# =============================================================================
 
-# No shader = lower GPU spikes + smoother frame pacing
+# No shaders = lower GPU spikes + more stable frame pacing
 custom-shader = none
 
-# Lightweight scrollback
+# Tmux already stores history
 scrollback-limit = 5000
 
 copy-on-select = false
@@ -109,11 +118,11 @@ clipboard-trim-trailing-spaces = true
 
 quit-after-last-window-closed = true
 
-# -----------------------------------------------------------------------------
+# =============================================================================
 # Cursor & Input
-# -----------------------------------------------------------------------------
+# =============================================================================
 
-# Native smooth cursor behavior
+# Native cursor movement behavior
 cursor-click-to-move = true
 
 # Stable shell integration
@@ -174,5 +183,5 @@ keybind = cmd+v=paste_from_clipboard
 
 keybind = cmd+shift+c=clear_screen
 
-# Reload config
+# Reload configuration
 keybind = cmd+r=reload_config
