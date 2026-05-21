@@ -1,81 +1,77 @@
 # =============================================================================
-# Ghostty — Minimal Smooth Native Config
-# Optimized for:
-# - macOS + Linux
-# - Neovim + Tmux
-# - Smooth frame pacing
-# - Low latency
-# - Lower GPU overhead
-# - Stable long sessions
+# Ghostty — Optimized Smooth Native Config
+# Author: anvndev
+# Profile: Backend / Cloud DevOps
+# Optimized for: macOS + Linux | Neovim + Tmux
 # =============================================================================
 
 # =============================================================================
-# Font
+# Font & Typography
 # =============================================================================
 
-font-family = JetBrainsMono Nerd Font Mono
-font-size = 15
+# Using the standard Nerd Font (non-Mono) allows icons to scale and render better
+font-family = JetBrainsMono Nerd Font
+font-size = 16
 
-# Stable glyph alignment and smoother scrolling feel
-adjust-cell-height = 0%
+# Provide ample breathing room for Nerd Font icons to prevent clipping
+adjust-cell-height = 15%
 adjust-cell-width = 0%
 
-# Disable ligatures for consistent code alignment
+# Disable ligatures for strict and consistent code alignment
 font-feature = -liga
 
-# Keep Retina text rendering crisp
+# Keep Retina text rendering crisp on macOS displays
 font-thicken = false
 
 # =============================================================================
-# Theme
+# Theme & Aesthetics (Premium High-Contrast Dark Green)
 # =============================================================================
 
-background = #07130A
-foreground = #B7D7A8
+# Deep forest dark green base for ultra eye comfort
+background = #0b1410
+foreground = #d7e3dc
 
-# Smooth lightweight cursor feel
-cursor-color = #98FF98
+# Crisp and visible mint cursor
+cursor-color = #a6e3a1
 cursor-style = bar
-cursor-opacity = 0.84
+cursor-opacity = 0.85
 
-selection-background = #1A2A1A
-selection-foreground = #D8F5C0
+# Deep comfortable forest green for selections
+selection-background = #1f3329
+selection-foreground = #e3ede8
 
 bold-is-bright = false
+minimum-contrast = 1.1
 
-# Preserve original palette contrast
-minimum-contrast = 1
+# Base ANSI Colors (Restored vibrancy for prominent visibility)
+palette = 0=#161f1b
+palette = 1=#ef7e7e
+palette = 2=#98d393
+palette = 3=#f0b475
+palette = 4=#89b4fa
+palette = 5=#e39ee3
+palette = 6=#7bc5b6
+palette = 7=#b5caa0
 
-# =============================================================================
-# Palette
-# =============================================================================
-
-palette = 0=#07130A
-palette = 1=#E06C75
-palette = 2=#98C379
-palette = 3=#E5C07B
-palette = 4=#61AFEF
-palette = 5=#C678DD
-palette = 6=#56B6C2
-palette = 7=#ABB2BF
-palette = 8=#5C6370
-palette = 9=#E06C75
-palette = 10=#98C379
-palette = 11=#E5C07B
-palette = 12=#61AFEF
-palette = 13=#C678DD
-palette = 14=#56B6C2
-palette = 15=#FFFFFF
+# Bright ANSI Colors (Pop out colors for prompts like Starship and Neovim)
+palette = 8=#475750
+palette = 9=#fca2a2
+palette = 10=#a6e3a1
+palette = 11=#fab387
+palette = 12=#a4c5fd
+palette = 13=#f5c2e7
+palette = 14=#94e2d5
+palette = 15=#d7e3dc
 
 # =============================================================================
 # Window & Compositor
 # =============================================================================
 
 # Subtle transparency without heavy compositor cost
-background-opacity = 0.985
+background-opacity = 0.95
 
-# Small blur radius keeps native feel while staying lightweight
-background-blur-radius = 2
+# A slightly higher blur radius provides a premium native macOS feel
+background-blur-radius = 20
 
 # Stable color rendering
 window-colorspace = srgb
@@ -83,29 +79,26 @@ window-colorspace = srgb
 macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = hidden
 
-# Compact layout for tighter Neovim + tmux workflow
+# Comfortable and balanced padding for a cleaner UI layout
 window-padding-x = 15
-window-padding-y = 5
-
-# Prevent floating centered appearance
-window-padding-balance = false
+window-padding-y = 4
+window-padding-balance = true
 
 # Reduce unnecessary window state retention
 window-save-state = default
-
 window-inherit-working-directory = true
 
 # Cleaner resize behavior
 resize-overlay = never
 
 # =============================================================================
-# Performance
+# Performance & Behavior
 # =============================================================================
 
 # No shaders = lower GPU spikes + more stable frame pacing
 custom-shader = none
 
-# Tmux already stores history
+# Keep Ghostty lightweight since Tmux already handles scrollback history
 scrollback-limit = 5000
 
 copy-on-select = false
@@ -119,7 +112,7 @@ clipboard-trim-trailing-spaces = true
 quit-after-last-window-closed = true
 
 # =============================================================================
-# Cursor & Input
+# Cursor, Input & Shell Integration
 # =============================================================================
 
 # Native cursor movement behavior
@@ -135,7 +128,7 @@ term = xterm-ghostty
 macos-option-as-alt = true
 
 # =============================================================================
-# Tabs
+# Keybindings: Tabs
 # =============================================================================
 
 keybind = cmd+t=new_tab
@@ -151,7 +144,7 @@ keybind = cmd+4=goto_tab:4
 keybind = cmd+5=goto_tab:5
 
 # =============================================================================
-# Windows & Splits
+# Keybindings: Windows & Splits
 # =============================================================================
 
 keybind = cmd+n=new_window
@@ -167,7 +160,7 @@ keybind = cmd+ctrl+l=goto_split:right
 keybind = cmd+shift+f=toggle_fullscreen
 
 # =============================================================================
-# Font Scaling
+# Keybindings: Font Scaling
 # =============================================================================
 
 keybind = cmd+equal=increase_font_size:1
@@ -175,7 +168,7 @@ keybind = cmd+minus=decrease_font_size:1
 keybind = cmd+0=reset_font_size
 
 # =============================================================================
-# Clipboard
+# Keybindings: Clipboard & System
 # =============================================================================
 
 keybind = cmd+c=copy_to_clipboard
@@ -183,5 +176,5 @@ keybind = cmd+v=paste_from_clipboard
 
 keybind = cmd+shift+c=clear_screen
 
-# Reload configuration
+# Reload configuration instantly
 keybind = cmd+r=reload_config
