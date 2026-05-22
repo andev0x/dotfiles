@@ -36,6 +36,8 @@ foreground = #d7e3dc
 cursor-color = #a6e3a1
 cursor-style = bar
 cursor-opacity = 0.85
+# Controls cursor blink timing (true uses native OS animation intervals)
+cursor-style-blink = true
 
 # Deep comfortable forest green for selections
 selection-background = #1f3329
