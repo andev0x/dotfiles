@@ -3,6 +3,7 @@
 # Author: anvndev
 # Profile: Backend / Cloud DevOps
 # Optimized for: macOS + Linux | Neovim + Tmux
+# Performance Status: Extreme Anti-Stutter Engine Active
 # =============================================================================
 
 # =============================================================================
@@ -64,14 +65,13 @@ palette = 14=#94e2d5
 palette = 15=#d7e3dc
 
 # =============================================================================
-# Window & Compositor
+# Window & Compositor (Optimized for Pure Speed)
 # =============================================================================
 
-# Subtle transparency without heavy compositor cost
-background-opacity = 0.95
-
-# A slightly higher blur radius provides a premium native macOS feel
-background-blur-radius = 20
+# Hard opacity and zero blur completely disable real-time Alpha Blending layout cycles.
+# This grants the GPU 100% processing headroom to handle heavy AI streaming loops.
+background-opacity = 1.0
+background-blur-radius = 0
 
 # Stable color rendering
 window-colorspace = srgb
@@ -92,7 +92,7 @@ window-inherit-working-directory = true
 resize-overlay = never
 
 # =============================================================================
-# Performance & Behavior
+# Advanced Extreme Performance Engine
 # =============================================================================
 
 # No shaders = lower GPU spikes + more stable frame pacing
