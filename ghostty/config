@@ -72,8 +72,8 @@ palette = 15=#d7e3dc
 
 # Hard opacity and zero blur completely disable real-time Alpha Blending layout cycles.
 # This grants the GPU 100% processing headroom to handle heavy AI streaming loops.
-background-opacity = 0.98
-background-blur-radius = 1
+background-opacity = 0.95
+background-blur-radius = 6
 
 # Stable color rendering
 window-colorspace = srgb
