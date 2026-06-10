@@ -1,0 +1,17 @@
+
+# ~/.aider.conf.yml
+model: link 
+editor-model: link
+
+edit-format: architect
+
+auto-commits: false
+dirty-commits: false
+watch-files: false
+
+map-tokens: '1024'
+cache-prompts: true
+
+stream: true
+pretty: true
+multiline: false
