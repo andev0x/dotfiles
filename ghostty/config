@@ -42,12 +42,13 @@ font-thicken = false
 background = #0a0d0b
 foreground = #d7e3dc
 
-# Crisp and visible mint cursor
+# Solid mint BLOCK caret: a chunky, always-on block reads as smooth and
+# immediate while typing (no thin-bar flicker, no blink gaps).
 cursor-color = #a6e3a1
-cursor-style = bar
-cursor-opacity = 0.85
-# Controls cursor blink timing (true uses native OS animation intervals)
-cursor-style-blink = true
+cursor-style = block
+cursor-opacity = 1
+# Steady, non-blinking block. Set to `true` if you prefer a blinking caret.
+cursor-style-blink = false
 
 # Selection mirrors tmux copy-mode (`mode-style bg=slate,fg=notice`), so text
 # selected natively in Ghostty and inside tmux looks identical.
@@ -178,8 +179,10 @@ cursor-click-to-move = true
 # though tmux panes inherit a fresh PATH; `sudo` preserves TERM under sudo.
 # ssh-* features stay off: inside tmux TERM is tmux-256color, so they would
 # add remote work for no benefit.
+# `no-cursor` is REQUIRED: the `cursor` feature force-sets a BAR at the prompt
+# and would silently override `cursor-style = block` above.
 shell-integration = detect
-shell-integration-features = cursor,sudo,title,path
+shell-integration-features = no-cursor,sudo,title,path
 
 # Native terminal identity. tmux overrides this to `tmux-256color` for panes
 # (default-terminal), so this only applies outside a session.
