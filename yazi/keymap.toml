@@ -1,0 +1,26 @@
+# =============================================================================
+# Yazi — keymap.toml
+# Author: andev0x
+#
+# Only *additions* live here: `prepend_keymap` keeps every stock binding, so
+# `g h`, `g c`, `g d`, `z` (fzf), `Z` (zoxide), `w` (tasks), etc. still work.
+# =============================================================================
+
+#:schema https://yazi-rs.github.io/schemas/keymap.json
+
+[mgr]
+prepend_keymap = [
+	# --- Bookmarks -----------------------------------------------------------
+	# Stock: g h (home) · g c (~/.config) · g d (~/Downloads)
+	{ on = [ "g", "D" ], run = "cd ~/Desktop",          desc = "Go to ~/Desktop" },
+	{ on = [ "g", "p" ], run = "cd ~/Pictures",         desc = "Go to ~/Pictures" },
+	{ on = [ "g", "v" ], run = "cd ~/Movies",           desc = "Go to ~/Movies" },
+	{ on = [ "g", "y" ], run = "cd ~/.config/yazi",     desc = "Go to Yazi config" },
+	{ on = [ "g", "n" ], run = "cd ~/.config/nvim",     desc = "Go to Neovim config" },
+	{ on = [ "g", "m" ], run = "cd ~/.config/tmux",     desc = "Go to tmux config" },
+	{ on = [ "g", "G" ], run = "cd ~/.config/ghostty",  desc = "Go to Ghostty config" },
+
+	# --- Tabs ----------------------------------------------------------------
+	{ on = "<C-t>", run = "tab_create --current", desc = "New tab in the current directory" },
+	{ on = "<C-w>", run = "tab_close",            desc = "Close the current tab" },
+]

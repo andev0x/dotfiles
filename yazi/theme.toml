@@ -1,0 +1,201 @@
+# =============================================================================
+# Yazi — Obsidian Grove (theme.toml)
+# Author: andev0x
+#
+# Palette is the same token set as tmux's "obsidian" theme and Ghostty's
+# chrome, so Yazi reads as another pane of the same UI:
+#
+#   base #0a0d0b   surface #101612   slate #1e2a22   session #263b2e
+#   dim  #5f6f63   text    #c6d4c9   focus #8fc7a0   notice  #a9d9ba
+#   badge #7a9b87  data    #4f8b6b   sep   #34423a
+#   red  #ef7e7e   yellow  #f0b475   cyan  #7bc5b6   magenta #e39ee3
+#
+# Only overrides are listed here; icons and unspecified styles come from
+# Yazi's shipped dark theme.
+# =============================================================================
+
+#:schema https://yazi-rs.github.io/schemas/theme.json
+
+[flavor]
+dark  = ""
+light = ""
+
+# =============================================================================
+# Manager
+# =============================================================================
+
+[mgr]
+cwd            = { fg = "#8fc7a0", bold = true }
+find_keyword   = { fg = "#0a0d0b", bg = "#a9d9ba", bold = true }
+find_position  = { fg = "#0a0d0b", bg = "#7a9b87", bold = true }
+symlink_target = { fg = "#4f8b6b", italic = true }
+
+marker_copied   = { fg = "#0a0d0b", bg = "#a9d9ba" }
+marker_cut      = { fg = "#0a0d0b", bg = "#ef7e7e" }
+marker_marked   = { fg = "#0a0d0b", bg = "#7a9b87" }
+marker_selected = { fg = "#0a0d0b", bg = "#8fc7a0" }
+marker_symbol   = "│"
+
+count_copied   = { fg = "#0a0d0b", bg = "#a9d9ba", bold = true }
+count_cut      = { fg = "#0a0d0b", bg = "#ef7e7e", bold = true }
+count_selected = { fg = "#0a0d0b", bg = "#8fc7a0", bold = true }
+
+border_symbol = "│"
+border_style  = { fg = "#34423a" }
+
+syntect_theme = ""
+
+# =============================================================================
+# Tabs
+# =============================================================================
+
+[tabs]
+active   = { fg = "#0a0d0b", bg = "#8fc7a0", bold = true }
+inactive = { fg = "#5f6f63", bg = "#101612" }
+
+# Flat separators (no powerline pills) to match the tmux status bar.
+sep_inner = { open = " ", close = " " }
+sep_outer = { open = " ", close = " " }
+
+# =============================================================================
+# Mode badge
+# =============================================================================
+
+[mode]
+normal_main = { fg = "#0a0d0b", bg = "#8fc7a0", bold = true }
+normal_alt  = { fg = "#8fc7a0", bg = "#1e2a22", bold = true }
+
+select_main = { fg = "#0a0d0b", bg = "#a9d9ba", bold = true }
+select_alt  = { fg = "#a9d9ba", bg = "#1e2a22", bold = true }
+
+unset_main  = { fg = "#0a0d0b", bg = "#ef7e7e", bold = true }
+unset_alt   = { fg = "#ef7e7e", bg = "#1e2a22", bold = true }
+
+# =============================================================================
+# Hovered-row indicator
+# =============================================================================
+
+[indicator]
+parent  = { fg = "#34423a" }
+current = { fg = "#8fc7a0" }
+preview = { fg = "#4f8b6b" }
+padding = { open = "", close = "" }
+
+# =============================================================================
+# Status bar
+# =============================================================================
+
+[status]
+overall   = { fg = "#c6d4c9", bg = "#101612" }
+sep_left  = { open = "", close = " " }
+sep_right = { open = " ", close = "" }
+
+perm_sep   = { fg = "#34423a" }
+perm_type  = { fg = "#8fc7a0", bold = true }
+perm_read  = { fg = "#a9d9ba" }
+perm_write = { fg = "#f0b475" }
+perm_exec  = { fg = "#4f8b6b" }
+
+progress_label  = { fg = "#c6d4c9", bold = true }
+progress_normal = { fg = "#4f8b6b", bg = "#1e2a22" }
+progress_error  = { fg = "#ef7e7e", bg = "#1e2a22" }
+
+# =============================================================================
+# Which-key
+# =============================================================================
+
+[which]
+border          = { fg = "#34423a" }
+cols            = 3
+mask            = { fg = "#0a0d0b", bg = "#5f6f63", bold = true }
+cand            = { fg = "#8fc7a0", bold = true }
+rest            = { fg = "#5f6f63" }
+desc            = { fg = "#c6d4c9" }
+separator       = " → "
+separator_style = { fg = "#34423a" }
+
+# =============================================================================
+# Dialogs
+# =============================================================================
+
+[confirm]
+border     = { fg = "#34423a" }
+title      = { fg = "#a9d9ba", bold = true }
+body       = { fg = "#c6d4c9" }
+list       = { fg = "#5f6f63" }
+btn_yes    = { fg = "#0a0d0b", bg = "#8fc7a0", bold = true }
+btn_no     = { fg = "#c6d4c9", bg = "#1e2a22" }
+btn_labels = [ "  Yes  ", "  No  " ]
+
+[spot]
+border   = { fg = "#34423a" }
+title    = { fg = "#a9d9ba", bold = true }
+tbl_col  = { fg = "#8fc7a0", bold = true }
+tbl_cell = { fg = "#0a0d0b", bg = "#8fc7a0", bold = true }
+
+[notify]
+title_info  = { fg = "#a9d9ba", bold = true }
+title_warn  = { fg = "#f0b475", bold = true }
+title_error = { fg = "#ef7e7e", bold = true }
+
+[pick]
+border   = { fg = "#34423a" }
+active   = { fg = "#0a0d0b", bg = "#8fc7a0", bold = true }
+inactive = { fg = "#c6d4c9" }
+
+[input]
+border   = { fg = "#34423a" }
+title    = { fg = "#a9d9ba", bold = true }
+value    = { fg = "#c6d4c9" }
+selected = { fg = "#0a0d0b", bg = "#8fc7a0" }
+
+[cmp]
+border   = { fg = "#34423a" }
+active   = { fg = "#0a0d0b", bg = "#8fc7a0", bold = true }
+inactive = { fg = "#c6d4c9" }
+
+[tasks]
+border  = { fg = "#34423a" }
+title   = { fg = "#a9d9ba", bold = true }
+hovered = { fg = "#0a0d0b", bg = "#8fc7a0", bold = true }
+
+[help]
+border  = { fg = "#34423a" }
+chord   = { fg = "#8fc7a0", bold = true }
+action  = { fg = "#c6d4c9" }
+hovered = { fg = "#0a0d0b", bg = "#8fc7a0", bold = true }
+
+# =============================================================================
+# File-type accents
+# =============================================================================
+
+[filetype]
+rules = [
+	# Image
+	{ mime = "image/*", fg = "#a9d9ba" },
+	# Media
+	{ mime = "{audio,video}/*", fg = "#e39ee3" },
+	# Archive
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#f0b475" },
+	# Document
+	{ mime = "application/{pdf,doc,rtf}", fg = "#7bc5b6" },
+	# Virtual file system
+	{ mime = "vfs/{absent,stale}", fg = "#5f6f63" },
+	# Special files
+	{ url = "*", is = "orphan", bg = "#ef7e7e", fg = "#0a0d0b" },
+	{ url = "*", is = "exec", fg = "#8fc7a0" },
+	{ url = "*", is = "dummy", bg = "#ef7e7e", fg = "#0a0d0b" },
+	{ url = "*/", is = "dummy", bg = "#ef7e7e", fg = "#0a0d0b" },
+	# Directories
+	{ url = "*/", fg = "#8fc7a0" },
+]
+
+# =============================================================================
+# Icons — green folders, default file-type icons
+# =============================================================================
+
+[icon]
+prepend_conds = [
+	{ if = "dir & !link & hovered", text = "\uf115", fg = "#a9d9ba" },
+	{ if = "dir & !link",           text = "\uf114", fg = "#8fc7a0" },
+]

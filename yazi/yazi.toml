@@ -1,0 +1,84 @@
+# =============================================================================
+# Yazi — Obsidian Grove (yazi.toml)
+# Author: andev0x
+# Tuned for: macOS + Ghostty + tmux | dark-green "obsidian" palette
+#
+# Design goals
+#   • fast: larger worker pools, conservative image cache, no wrapped noise
+#   • smooth: image delay + Catmull-Rom downscaling for crisp, stable previews
+#   • informative: size + mtime linemode (implemented in init.lua)
+#   • tmux/SSH friendly: image protocols pass through (see tmux.conf)
+# =============================================================================
+
+#:schema https://yazi-rs.github.io/schemas/yazi.json
+
+# =============================================================================
+# Manager
+# =============================================================================
+
+[mgr]
+# 1/8 parent · 4/8 current · 3/8 preview — a balanced three-pane view.
+ratio          = [ 1, 4, 3 ]
+
+# Natural sort keeps "2 < 10", hidden files stay hidden by default.
+sort_by        = "natural"
+sort_sensitive = false
+sort_reverse   = false
+sort_dir_first = true
+sort_translit  = false
+sort_fallback  = "alphabetical"
+
+# "size  mtime" on the right of every row (see init.lua).
+linemode       = "size_and_mtime"
+
+show_hidden    = false
+show_symlink   = true
+scrolloff      = 5
+mouse_events   = [ "click", "scroll", "drag" ]
+
+# =============================================================================
+# Preview
+# =============================================================================
+
+[preview]
+# Wrapping makes long config/log lines readable in the preview pane.
+wrap            = "yes"
+tab_size        = 4
+
+# Crisp on Retina without exploding the image cache (re-run `ya cache clear`
+# after changing these).
+max_width       = 1000
+max_height      = 1000
+
+# Wait ~50ms before sending an image, so fast scrolling stays smooth.
+image_delay     = 50
+
+# Catmull-Rom is the quality/speed sweet spot for downscaling.
+image_filter    = "catmull-rom"
+image_quality   = 85
+
+# =============================================================================
+# Tasks
+# =============================================================================
+
+[tasks]
+# Modern Apple Silicon handles wider pools comfortably.
+file_workers     = 8
+plugin_workers   = 8
+fetch_workers    = 8
+preload_workers  = 4
+process_workers  = 8
+bizarre_retry    = 3
+suppress_preload = false
+
+# =============================================================================
+# Input & Which-key
+# =============================================================================
+
+[input]
+# Match Ghostty's steady, non-blinking block caret.
+cursor_blink = false
+
+[which]
+# Predictable, scannable help: sort candidates by key instead of load order.
+sort_by = "key"
