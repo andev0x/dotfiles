@@ -44,3 +44,6 @@ __pycache__/
 local.*
 .commit_suggest_history.json
 helix/runtime/
+
+# ohgo runtime state
+.ohgo/

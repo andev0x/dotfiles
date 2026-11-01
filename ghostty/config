@@ -1,9 +1,14 @@
 # =============================================================================
-# Ghostty — Optimized Smooth Native Config
+# Ghostty — Optimized Smooth Native Config (tmux-aware)
 # Author: anvndev
 # Profile: Backend / Cloud DevOps
 # Optimized for: macOS + Linux | Neovim + Tmux
-# Performance Status: Extreme Anti-Stutter Engine Active
+#
+# tmux is the source of truth for prefixes, scrolling, selection and the
+# status bar. This file only changes the Ghostty side so the two never fight:
+#   • tmux owns the mouse/history/clipboard -> Ghostty stays out of the way
+#   • Ghostty chrome matches tmux's "obsidian" dark-green palette
+#   • keys Ghostty encodes must never collide with the C-a prefix
 # =============================================================================
 
 # =============================================================================
@@ -27,9 +32,14 @@ font-thicken = false
 # =============================================================================
 # Theme & Aesthetics (Premium High-Contrast Dark Green)
 # =============================================================================
+#
+# Chrome is aligned with tmux's obsidian theme so the pane background and the
+# status bar/popups read as one surface. tmux tokens:
+#   base=#0a0d0b  text=#c6d4c9  focus=#8fc7a0  slate=#1e2a22
+#   dim=#5f6f63   alert=#a9d9ba  data=#4f8b6b
 
-# Deep forest dark green base for ultra eye comfort
-background = #0b1410
+# Deep forest dark green base for ultra eye comfort (same value as tmux `base`)
+background = #0a0d0b
 foreground = #d7e3dc
 
 # Crisp and visible mint cursor
@@ -39,9 +49,10 @@ cursor-opacity = 0.85
 # Controls cursor blink timing (true uses native OS animation intervals)
 cursor-style-blink = true
 
-# Deep comfortable forest green for selections
-selection-background = #1f3329
-selection-foreground = #e3ede8
+# Selection mirrors tmux copy-mode (`mode-style bg=slate,fg=notice`), so text
+# selected natively in Ghostty and inside tmux looks identical.
+selection-background = #1e2a22
+selection-foreground = #a9d9ba
 
 bold-is-bright = false
 minimum-contrast = 1.1
@@ -70,10 +81,13 @@ palette = 15=#d7e3dc
 # Window & Compositor (Optimized for Pure Speed)
 # =============================================================================
 
-# Hard opacity and zero blur completely disable real-time Alpha Blending layout cycles.
-# This grants the GPU 100% processing headroom to handle heavy AI streaming loops.
-background-opacity = 0.95
-background-blur-radius = 6
+# Subtle translucency + native macOS blur ("premium" look).
+# Note: `background-blur-radius` is the legacy name in 1.4 — the canonical
+# option is `background-blur`. Any opacity < 1 forces compositing; set
+# background-opacity = 1 and background-blur = false if you want maximum
+# frame-rate consistency during heavy output.
+background-opacity = 0.94
+background-blur = 6
 
 # Stable color rendering
 window-colorspace = srgb
@@ -97,21 +111,61 @@ resize-overlay = never
 # Advanced Extreme Performance Engine
 # =============================================================================
 
-# No shaders = lower GPU spikes + more stable frame pacing
-custom-shader = none
+# No custom shader: keeps GPU frame pacing stable. `custom-shader = none` is
+# NOT a valid value — it resolves to the literal path <config-dir>/none and
+# only logs a load error, so the line is left disabled instead.
+# Uncomment to opt back in:
+# custom-shader = shaders/cursor_tail.glsl
 
-# Keep Ghostty lightweight since Tmux already handles scrollback history
-scrollback-limit = 5000
-
-copy-on-select = false
+# tmux keeps 50,000 lines in `history-limit`, so Ghostty only needs enough
+# for surfaces that are not inside tmux. `scrollback-limit` is a legacy alias
+# that maps to *bytes* in 1.4 (5,000 bytes ≈ 50 lines!), so use the explicit
+# limits below instead.
+scrollback-limit-lines = 10000
+scrollback-limit-bytes = 50000000
 
 mouse-hide-while-typing = true
-mouse-scroll-multiplier = 2
 
-clipboard-read = allow
 clipboard-trim-trailing-spaces = true
 
 quit-after-last-window-closed = true
+
+# =============================================================================
+# tmux Interop (Ghostty side only — tmux config is never touched)
+# =============================================================================
+# tmux runs with: prefix C-a, `mouse on`, `set-clipboard on`,
+# `extended-keys csi-u`, `history-limit 50000`, truecolor. The settings below
+# keep Ghostty from duplicating or swallowing that behaviour.
+#
+# Truecolor and CSI-u (`extended-keys`) are negotiated by tmux for the client
+# terminal; Ghostty already supports both, so there is nothing to enable here.
+
+# Let tmux receive wheel/mouse events (it owns scrolling via copy-mode).
+mouse-reporting = true
+
+# Stock wheel feel. Inside tmux the wheel arrives as mouse events (tmux owns
+# scrolling), so a multiplier only affects surfaces outside tmux — where 2x
+# overshoots. Keep the defaults.
+mouse-scroll-multiplier = precision:1,discrete:3
+
+# Shift + drag always starts a NATIVE Ghostty selection even though tmux
+# requested mouse reporting (`never` also ignores XTSHIFTESCAPE if an inner
+# app asks for shift to be forwarded). Workflow: Shift+drag, then Cmd+C.
+mouse-shift-capture = never
+
+# Mouse drags belong to tmux copy-mode, so Ghostty must not copy as well.
+copy-on-select = none
+
+# tmux's `set-clipboard on` writes the clipboard via OSC 52; keep that allowed.
+# (tmux's yank binding uses pbcopy first, so this is only the fallback path.)
+clipboard-write = allow
+
+# `clipboard-read = allow` lets apps query the clipboard (OSC 52 read).
+# tmux never needs this; set to `ask`/`deny` to tighten it.
+clipboard-read = allow
+
+# `bold-is-bright = false` (above) matters here: tmux emits bold attributes
+# and must not have its palette silently brightened by Ghostty.
 
 # =============================================================================
 # Cursor, Input & Shell Integration
@@ -120,14 +174,31 @@ quit-after-last-window-closed = true
 # Native cursor movement behavior
 cursor-click-to-move = true
 
-# Stable shell integration
+# Stable shell integration. `path` keeps the `ghostty` CLI reachable even
+# though tmux panes inherit a fresh PATH; `sudo` preserves TERM under sudo.
+# ssh-* features stay off: inside tmux TERM is tmux-256color, so they would
+# add remote work for no benefit.
 shell-integration = detect
-shell-integration-features = sudo,title
+shell-integration-features = cursor,sudo,title,path
 
-# Native terminal identity
+# Native terminal identity. tmux overrides this to `tmux-256color` for panes
+# (default-terminal), so this only applies outside a session.
 term = xterm-ghostty
 
+# REQUIRED for tmux's `bind -n M-h/j/k/l` pane navigation: Option must emit
+# ESC+key so tmux receives Meta. Without this, Option+letter types accents.
 macos-option-as-alt = true
+
+# =============================================================================
+# Keybindings: tmux-safe line navigation
+# =============================================================================
+# Ghostty's defaults encode Cmd+Left/Cmd+Right as Ctrl-A / Ctrl-E. Ctrl-A is
+# tmux's prefix, so Cmd+Left would silently arm the prefix instead of jumping
+# to the start of the line. Send Ghostty's own Home/End sequences (khome=\EOH,
+# kend=\EOF in xterm-ghostty) so tmux decodes and re-encodes them normally;
+# readline, zsh, fish and Neovim all map them to line start/end.
+keybind = cmd+arrow_left=text:\x1bOH
+keybind = cmd+arrow_right=text:\x1bOF
 
 # =============================================================================
 # Keybindings: Tabs
